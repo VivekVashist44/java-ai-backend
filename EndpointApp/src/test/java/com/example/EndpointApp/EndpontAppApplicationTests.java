@@ -8,6 +8,7 @@ class EndpointAppApplicationTests {
 
 	@Test
 	void contextLoads() {
+		
 	}
 
 }

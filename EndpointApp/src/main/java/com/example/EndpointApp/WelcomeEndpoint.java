@@ -1,8 +1,10 @@
 package com.example.EndpointApp;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,26 +31,35 @@ public class WelcomeEndpoint {
     }
 
     @GetMapping("/recommendation")
-    public ArrayList<Product> recommend(@RequestParam int productId) {
+    public ResponseEntity<?> recommend(@RequestParam int productId) {
         String cat = null;
         ArrayList<Product> result=new ArrayList<>();
+        boolean flag=false;
         for (int i = 0; i < arr1.size(); i++) {
             if (productId == arr1.get(i).getId()) {
-                System.out.println("We have reached the destination with checklpoint =1");
                 cat = arr1.get(i).getCategory();
-                System.out.println(cat);
-            }
+                flag=true;
+            
+        }
+    }
+        if(flag==false){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error","Invalid product id or Product id not found"));
         }
         for (int i = 0; i < arr1.size(); i++) {
             if (cat.equals(arr1.get(i).getCategory()) && productId!=arr1.get(i).getId()) {
-                System.out.print("We have reached the destination with checklpoint =2");
                 result.add(arr1.get(i));
+                
             }
+            System.out.println("This is my arraylist" + result);
         }
-
-        return result;
+        return ResponseEntity.ok(result);
 
     }
+
+    public HttpStatus response(){
+        return HttpStatus.BAD_REQUEST;
+    }
+
 
     @GetMapping("/welcome")
     public String welcome() {
@@ -57,6 +68,6 @@ public class WelcomeEndpoint {
 
     @GetMapping("/greet")
     public String greet(@RequestParam String name) {
-        return "Hello ," + name + "! Welcome to AI Backend";
+        return "Hello, " + name + "! Welcome to AI Backend";
     }
 }
