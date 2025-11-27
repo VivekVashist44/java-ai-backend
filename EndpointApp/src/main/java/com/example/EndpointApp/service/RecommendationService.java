@@ -3,11 +3,14 @@ package com.example.EndpointApp.service;
 import java.util.ArrayList;
 import java.util.Map;
 
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import com.example.EndpointApp.Product;
 
+@Service
 public class RecommendationService {
     public ResponseEntity<?> result(int productId,ArrayList<Product> arr1){
         String cat = null;

@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RestController
 public class WelcomeEndpoint {
 
-    RecommendationService recommendationService;
+    private final RecommendationService recommendationService;
     
     ArrayList<Product> arr1 = new ArrayList<>();
 
-    public WelcomeEndpoint() {
+    public WelcomeEndpoint(RecommendationService recommendationService) {
+
+        this.recommendationService = recommendationService;
 
         Product pt1 = new Product(1, "Lays", "Food");
         Product pt2 = new Product(2, "Kurkure", "Food");
@@ -39,7 +41,6 @@ public class WelcomeEndpoint {
 
     @GetMapping("/recommendation")
     public ResponseEntity<?> recommend(@RequestParam int productId) {
-        recommendationService = new RecommendationService();
             return recommendationService.result(productId,arr1);
 
     }
