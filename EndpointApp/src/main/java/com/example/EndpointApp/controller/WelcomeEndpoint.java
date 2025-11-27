@@ -1,4 +1,4 @@
-package com.example.EndpointApp;
+package com.example.EndpointApp.controller;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -7,10 +7,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.EndpointApp.Product;
+import com.example.EndpointApp.service.RecommendationService;
+
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 public class WelcomeEndpoint {
+
+    RecommendationService recommendationService;
+    
     ArrayList<Product> arr1 = new ArrayList<>();
 
     public WelcomeEndpoint() {
@@ -32,27 +39,8 @@ public class WelcomeEndpoint {
 
     @GetMapping("/recommendation")
     public ResponseEntity<?> recommend(@RequestParam int productId) {
-        String cat = null;
-        ArrayList<Product> result=new ArrayList<>();
-        boolean flag=false;
-        for (int i = 0; i < arr1.size(); i++) {
-            if (productId == arr1.get(i).getId()) {
-                cat = arr1.get(i).getCategory();
-                flag=true;
-            
-        }
-    }
-        if(flag==false){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error","Invalid product id or Product id not found"));
-        }
-        for (int i = 0; i < arr1.size(); i++) {
-            if (cat.equals(arr1.get(i).getCategory()) && productId!=arr1.get(i).getId()) {
-                result.add(arr1.get(i));
-                
-            }
-            System.out.println("This is my arraylist" + result);
-        }
-        return ResponseEntity.ok(result);
+        recommendationService = new RecommendationService();
+            return recommendationService.result(productId,arr1);
 
     }
 
