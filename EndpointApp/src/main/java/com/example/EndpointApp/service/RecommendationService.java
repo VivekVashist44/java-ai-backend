@@ -35,4 +35,14 @@ public class RecommendationService {
         }
         return ResponseEntity.ok(result);
     }
+
+    public ResponseEntity<?> getAll(ArrayList<Product> arr1){
+        if(arr1!=null){
+            return ResponseEntity.ok(arr1);
+        }
+        else{
+            return (ResponseEntity<?>) ResponseEntity.noContent();
+        }
+        
+    }
 }

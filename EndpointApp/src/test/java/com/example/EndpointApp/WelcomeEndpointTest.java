@@ -47,5 +47,16 @@ public class WelcomeEndpointTest {
             assertNotEquals(testProductId, p.getId());
         }
     }
+
+    @Test
+    public void testAllProducts(){
+        ResponseEntity<?> response =welcomeEndpoint.allProducts();
+        
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        ArrayList<Product> products = (ArrayList<Product>) response.getBody();
+        
+        assertEquals(6,products.size() );
+    }
     
 }

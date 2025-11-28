@@ -19,6 +19,7 @@ public class WelcomeEndpoint {
     private final RecommendationService recommendationService;
     
     ArrayList<Product> arr1 = new ArrayList<>();
+    ArrayList<Product> arr2 =new ArrayList<>();
 
     public WelcomeEndpoint(RecommendationService recommendationService) {
 
@@ -45,8 +46,12 @@ public class WelcomeEndpoint {
 
     }
 
-    public HttpStatus response(){
-        return HttpStatus.BAD_REQUEST;
+    // public HttpStatus response(){
+    //     return HttpStatus.BAD_REQUEST;
+    // }
+    @GetMapping("/products")
+    public ResponseEntity<?> allProducts(){
+        return recommendationService.getAll(arr1);
     }
 
 

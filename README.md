@@ -88,3 +88,52 @@ This demonstrates how to use JUnit 5 (Jupiter) for unit testing with Spring Boot
 #### Running Tests
 To execute the tests:
 mvn test
+
+
+### GET/products :-
+
+This is a endpoint which returns list of all the available product . It returns result in JSON format
+
+**response:-**
+
+example:-
+
+url:- http://localhost:8080/products
+curl :- curl --location 'http://localhost:8080/products'
+
+**sucessful response (HTTP 200):**
+It returns all the product .
+
+[
+    {
+        "id": 1,
+        "name": "Lays",
+        "category": "Food"
+    },
+    {
+        "id": 2,
+        "name": "Kurkure",
+        "category": "Food"
+    },
+    {
+        "id": 3,
+        "name": "book",
+        "category": "Essential"
+    },
+    {
+        "id": 4,
+        "name": "car",
+        "category": "Essential"
+    },
+    {
+        "id": 5,
+        "name": "milk",
+        "category": "Food"
+    },
+    {
+        "id": 6,
+        "name": "laptop",
+        "category": "Electronics"
+    }
+]
+
