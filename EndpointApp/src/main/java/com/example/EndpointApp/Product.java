@@ -1,15 +1,24 @@
 package com.example.EndpointApp;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 
+@Entity
 public class Product{
-    private int id;
+
+    public Product() {}
+
+    @Id
+    @GeneratedValue
+    private Integer id;
     private String name;
     private String category;
 
-    public int getId(){
+    public Integer getId(){
         return id;
     }
-    public void setId(int id){
+    public void setId(Integer id){
         this.id=id;
     }
 

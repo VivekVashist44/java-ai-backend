@@ -62,14 +62,14 @@ public class RecommendationService {
     //     // }
     // }
 
-    public ResponseEntity<?> result(int productId){
-        Product res=repository.findById(productId);
+    public ResponseEntity<?> result(Integer productId){
+        Product res=repository.findById(productId).orElse(null);
         if(res == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("Error","Invalid Product Id"));
         }
 
         String cat= res.getCategory();
-        ArrayList<Product> allProducts=repository.getAllProducts();
+        ArrayList<Product> allProducts=(ArrayList<Product>)repository.findAll();
         ArrayList<Product> result = new ArrayList<>();
 
         for(Product p :allProducts){
@@ -81,12 +81,6 @@ public class RecommendationService {
     }
 
     public ResponseEntity<?> getAll(){
-        if(repository.getAllProducts()!=null){
-            return ResponseEntity.ok(repository.getAllProducts());
-        }
-        else{
-            return (ResponseEntity<?>) ResponseEntity.noContent();
-        }
-        
+        return ResponseEntity.ok(repository.findAll());
     }
 }
