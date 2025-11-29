@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.example.EndpointApp.controller.WelcomeEndpoint;
+import com.example.EndpointApp.repository.ProductRepository;
 import com.example.EndpointApp.service.RecommendationService;
 
 public class WelcomeEndpointTest {
@@ -21,7 +22,8 @@ public class WelcomeEndpointTest {
 
     @BeforeEach
     public void setup(){
-        RecommendationService recommendationService =new RecommendationService();
+        ProductRepository productRepository =new ProductRepository();
+        RecommendationService recommendationService =new RecommendationService(productRepository);
         welcomeEndpoint = new WelcomeEndpoint(recommendationService);
     }
     @Test
@@ -29,7 +31,7 @@ public class WelcomeEndpointTest {
         // Test with invalid productId
         ResponseEntity<?> responseInvalid = welcomeEndpoint.recommend(-1);
         assertEquals(HttpStatus.NOT_FOUND, responseInvalid.getStatusCode());
-        assertTrue(((Map)responseInvalid.getBody()).containsKey("error"));
+        assertTrue(((Map)responseInvalid.getBody()).containsKey("Error"));
     }
 
     @Test
