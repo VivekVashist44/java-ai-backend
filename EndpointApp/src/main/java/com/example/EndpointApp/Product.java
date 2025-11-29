@@ -12,7 +12,9 @@ public class Product{
     @Id
     @GeneratedValue
     private Integer id;
+    @jakarta.validation.constraints.NotNull(message = "Name can't be Empty")
     private String name;
+    @jakarta.validation.constraints.NotNull(message = "Please Enter Category")
     private String category;
 
     public Integer getId(){

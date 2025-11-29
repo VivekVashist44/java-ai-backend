@@ -5,7 +5,6 @@ import java.util.Map;
 
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -20,48 +19,6 @@ public class RecommendationService {
     public RecommendationService(ProductRepository repository){
         this.repository=repository;
     }
-
-    // public ResponseEntity<?> result(int productId){
-    //     String cat = null;
-    //     ArrayList<Product> result=new ArrayList<>();
-    //     boolean flag=false;
-    //     Product res = repository.findById(productId);
-    //     if(res!=null){
-    //         cat = res.getCategory();    
-    //     }
-    //     else{
-    //         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "Invalid product id or Product id not found"));
-    //     }
-
-    //     for (int i = 0; i < repository.getAllProducts().size(); i++) {
-    //         if (cat.equals(repository.getAllProducts().get(i).getCategory())
-    //                 && productId != repository.getAllProducts().get(i).getId()) {
-    //             result.add(repository.getAllProducts().get(i));
-    //         }
-    //     }
-    //     return ResponseEntity.ok(result);
-        
-
-    //     // if(cat.isEmpty()){
-    //     //     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error","Invalid product id or Product id not found"));
-    //     // }
-    //     // for (int i = 0; i < arr1.size(); i++) {
-    //     //     if (cat.equals(arr1.get(i).getCategory()) && productId!=arr1.get(i).getId())
-    //     //         {
-    //     //             result.add(arr1.get(i));
-    //     //         }
-    //     //     System.out.println("This is my arraylist" + result);
-    //     // }
-    //     // return ResponseEntity.ok(result);
-
-    //     // if(!cat.isEmpty()){
-            
-    //     // }
-    //     // else{
-    //     //     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "Invalid product id or Product id not found"));
-    //     // }
-    // }
-
     public ResponseEntity<?> result(Integer productId){
         Product res=repository.findById(productId).orElse(null);
         if(res == null){
@@ -82,5 +39,8 @@ public class RecommendationService {
 
     public ResponseEntity<?> getAll(){
         return ResponseEntity.ok(repository.findAll());
+    }
+    public ResponseEntity<?> save(Product product){
+        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(product));
     }
 }

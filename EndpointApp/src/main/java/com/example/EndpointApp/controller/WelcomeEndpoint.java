@@ -1,16 +1,15 @@
 package com.example.EndpointApp.controller;
 
-import java.util.ArrayList;
-import java.util.Map;
-
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.EndpointApp.Product;
-import com.example.EndpointApp.repository.ProductRepository;
 import com.example.EndpointApp.service.RecommendationService;
+
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -18,9 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class WelcomeEndpoint {
 
     private final RecommendationService recommendationService;
-    
-    // ArrayList<Product> arr1 = new ArrayList<>();
-    // ArrayList<Product> arr2 =new ArrayList<>();
 
     public WelcomeEndpoint(RecommendationService recommendationService) {
 
@@ -46,15 +42,15 @@ public class WelcomeEndpoint {
             return recommendationService.result(productId);
 
     }
-
-    // public HttpStatus response(){
-    //     return HttpStatus.BAD_REQUEST;
-    // }
     @GetMapping("/products")
     public ResponseEntity<?> allProducts(){
         return recommendationService.getAll();
     }
 
+    @PostMapping("/products")
+    public ResponseEntity<?> createProduct(@Valid @RequestBody Product product){
+        return recommendationService.save(product);
+    }
 
     @GetMapping("/welcome")
     public String welcome() {
