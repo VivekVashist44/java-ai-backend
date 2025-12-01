@@ -1,8 +1,11 @@
 package com.example.EndpointApp.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,6 +55,15 @@ public class WelcomeEndpoint {
         return recommendationService.save(product);
     }
 
+    @PutMapping("/products/{id}")
+    public ResponseEntity<?> updateProduct(@PathVariable Integer id,@RequestBody Product product){
+        return recommendationService.update(id, product);
+    }
+
+    @DeleteMapping("/products/{id}")
+    public ResponseEntity<?> deleteProduct(@PathVariable Integer id){
+        return recommendationService.delete(id);
+    }
     @GetMapping("/welcome")
     public String welcome() {
         return "Hello, AI Backend!";
