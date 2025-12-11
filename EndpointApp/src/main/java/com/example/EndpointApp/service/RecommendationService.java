@@ -1,13 +1,13 @@
 package com.example.EndpointApp.service;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.EndpointApp.Product;
+import com.example.EndpointApp.exception.ProductNotFoundException;
 import com.example.EndpointApp.repository.ProductRepository;
 
 
@@ -23,7 +23,7 @@ public class RecommendationService {
     public ResponseEntity<?> result(Integer productId) {
         Product res = repository.findById(productId).orElse(null);
         if (res == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("Error", "Invalid Product Id"));
+            throw new ProductNotFoundException(productId);
         }
 
         String cat = res.getCategory();
@@ -41,6 +41,14 @@ public class RecommendationService {
     public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(repository.findAll());
     }
+    public ResponseEntity<?> getById(Integer id){
+        // return ResponseEntity.ok(repository.findById(id));
+        Product res = repository.findById(id).orElse(null);
+        if(res==null){
+            throw new ProductNotFoundException(id);
+        }
+        return ResponseEntity.ok(repository.findById(id));
+    }
 
     public ResponseEntity<?> save(Product product) {
         return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(product));
@@ -49,7 +57,7 @@ public class RecommendationService {
     public ResponseEntity<?> update(Integer id, Product product) {
         Product res = repository.findById(id).orElse(null);
         if (res == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("Error", "Product Not Found"));
+            throw new ProductNotFoundException(id);
         }
         if (product.getName() != null) {
             res.setName(product.getName());
@@ -67,6 +75,6 @@ public class RecommendationService {
             repository.deleteById(id);
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("Error","Product Not Found"));
+        throw new ProductNotFoundException(id);
     }
 }

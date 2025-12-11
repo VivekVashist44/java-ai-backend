@@ -39,6 +39,10 @@ public class WelcomeEndpoint {
         // arr1.add(pt5);
         // arr1.add(pt6);
     }
+    @GetMapping("/")
+    public String Dashboard(){
+        return "Welcome to homepage";
+    }
 
     @GetMapping("/recommendation")
     public ResponseEntity<?> recommend(@RequestParam int productId) {
@@ -48,6 +52,10 @@ public class WelcomeEndpoint {
     @GetMapping("/products")
     public ResponseEntity<?> allProducts(){
         return recommendationService.getAll();
+    }
+    @GetMapping("/products/{id}")
+    public ResponseEntity<?> productById(@PathVariable Integer id){
+        return recommendationService.getById(id);
     }
 
     @PostMapping("/products")
@@ -63,10 +71,6 @@ public class WelcomeEndpoint {
     @DeleteMapping("/products/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable Integer id){
         return recommendationService.delete(id);
-    }
-    @GetMapping("/welcome")
-    public String welcome() {
-        return "Hello, AI Backend!";
     }
 
     @GetMapping("/greet")
