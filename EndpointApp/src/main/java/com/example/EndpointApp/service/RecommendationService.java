@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.EndpointApp.Product;
+import com.example.EndpointApp.dto.ProductRequest;
 import com.example.EndpointApp.exception.ProductNotFoundException;
 import com.example.EndpointApp.repository.ProductRepository;
 
@@ -27,14 +28,16 @@ public class RecommendationService {
         }
 
         String cat = res.getCategory();
-        ArrayList<Product> allProducts = (ArrayList<Product>) repository.findAll();
-        ArrayList<Product> result = new ArrayList<>();
+        // ArrayList<Product> allProducts = (ArrayList<Product>) repository.findAll();
+        // ArrayList<Product> result = new ArrayList<>();
 
-        for (Product p : allProducts) {
-            if (cat.equals(p.getCategory()) && productId != p.getId()) {
-                result.add(p);
-            }
-        }
+        // for (Product p : allProducts) {
+        //     if (cat.equals(p.getCategory()) && productId != p.getId()) {
+        //         result.add(p);
+        //     }
+        // }
+
+        ArrayList<Product> result = repository.findByCategoryAndIdNot(cat, productId);
         return ResponseEntity.ok(result);
     }
 
@@ -50,8 +53,12 @@ public class RecommendationService {
         return ResponseEntity.ok(repository.findById(id));
     }
 
-    public ResponseEntity<?> save(Product product) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(product));
+    public ResponseEntity<?> save(ProductRequest product) {
+
+        Product newProduct = new Product();
+        newProduct.setName(product.getName());
+        newProduct.setCategory(product.getCategory());
+        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(newProduct));
     }
 
     public ResponseEntity<?> update(Integer id, Product product) {

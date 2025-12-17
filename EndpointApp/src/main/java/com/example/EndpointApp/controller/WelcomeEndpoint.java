@@ -1,6 +1,7 @@
 package com.example.EndpointApp.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,12 +11,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.EndpointApp.Product;
+import com.example.EndpointApp.dto.ProductRequest;
 import com.example.EndpointApp.service.RecommendationService;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
+@Validated
 @RestController
 public class WelcomeEndpoint {
 
@@ -45,7 +49,7 @@ public class WelcomeEndpoint {
     }
 
     @GetMapping("/recommendation")
-    public ResponseEntity<?> recommend(@RequestParam int productId) {
+    public ResponseEntity<?> recommend(@Min(1) @RequestParam int productId) {
             return recommendationService.result(productId);
 
     }
@@ -54,22 +58,22 @@ public class WelcomeEndpoint {
         return recommendationService.getAll();
     }
     @GetMapping("/products/{id}")
-    public ResponseEntity<?> productById(@PathVariable Integer id){
+    public ResponseEntity<?> productById(@PathVariable @Min(1) Integer id){
         return recommendationService.getById(id);
     }
 
     @PostMapping("/products")
-    public ResponseEntity<?> createProduct(@Valid @RequestBody Product product){
+    public ResponseEntity<?> createProduct(@Valid @RequestBody ProductRequest product){
         return recommendationService.save(product);
     }
 
     @PutMapping("/products/{id}")
-    public ResponseEntity<?> updateProduct(@PathVariable Integer id,@RequestBody Product product){
+    public ResponseEntity<?> updateProduct(@PathVariable @Min(1) Integer id,@RequestBody Product product){
         return recommendationService.update(id, product);
     }
 
     @DeleteMapping("/products/{id}")
-    public ResponseEntity<?> deleteProduct(@PathVariable Integer id){
+    public ResponseEntity<?> deleteProduct(@PathVariable @Min(1) Integer id){
         return recommendationService.delete(id);
     }
 
