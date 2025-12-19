@@ -1,10 +1,14 @@
 package com.example.EndpointApp;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 
+@EntityListeners(AuditListner.class)
 @Entity
 public class Product{
 
@@ -19,7 +23,24 @@ public class Product{
     @NotBlank
     @jakarta.validation.constraints.NotNull(message = "Please Enter Category")
     private String category;
+    
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
+
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
     public Integer getId(){
         return id;
     }
@@ -46,4 +67,5 @@ public class Product{
         this.name=name ;
         this.category=category;
     }
+    
 }

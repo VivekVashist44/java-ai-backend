@@ -11,6 +11,8 @@ import com.example.EndpointApp.dto.ProductRequest;
 import com.example.EndpointApp.exception.ProductNotFoundException;
 import com.example.EndpointApp.repository.ProductRepository;
 
+import jakarta.transaction.Transactional;
+
 
 @Service
 public class RecommendationService {
@@ -60,7 +62,7 @@ public class RecommendationService {
         newProduct.setCategory(product.getCategory());
         return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(newProduct));
     }
-
+    @Transactional
     public ResponseEntity<?> update(Integer id, Product product) {
         Product res = repository.findById(id).orElse(null);
         if (res == null) {
