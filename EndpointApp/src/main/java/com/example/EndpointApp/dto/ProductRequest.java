@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Size;
 
 public class ProductRequest {
     
+
+    private Integer id;
     @NotBlank(message = "Name can't be empty/blank")
     @Size(min = 3)
     private String name;
@@ -13,6 +15,16 @@ public class ProductRequest {
     @NotBlank(message = "Category can't be empty/blank")
     @Size(min = 3)
     private String category;
+
+
+
+    public Integer getId(){
+        return this.id;
+    }
+
+    public void setId(Integer id){
+        this.id = id;
+    }
 
     public String getName(){
         return this.name;

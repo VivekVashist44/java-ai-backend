@@ -41,7 +41,6 @@ public class WelcomeEndpointTest {
     @Test
     public void testRecommendInvalidInput(){
         assertThrows(ProductNotFoundException.class,() -> welcomeEndpoint.recommend(-1) );
-
     }
 
     // @Test

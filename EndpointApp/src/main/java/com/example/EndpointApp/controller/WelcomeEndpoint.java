@@ -1,5 +1,8 @@
 package com.example.EndpointApp.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.EndpointApp.Product;
+import com.example.EndpointApp.dto.ApiResponse;
 import com.example.EndpointApp.dto.ProductRequest;
 import com.example.EndpointApp.service.RecommendationService;
 
@@ -49,31 +53,31 @@ public class WelcomeEndpoint {
     }
 
     @GetMapping("/recommendation")
-    public ResponseEntity<?> recommend(@Min(1) @RequestParam int productId) {
+    public ResponseEntity<ApiResponse<List<ProductRequest>>> recommend(@Min(1) @RequestParam int productId) {
             return recommendationService.result(productId);
 
     }
     @GetMapping("/products")
-    public ResponseEntity<?> allProducts(){
+    public ResponseEntity<ApiResponse<List<ProductRequest>>> allProducts(){
         return recommendationService.getAll();
     }
     @GetMapping("/products/{id}")
-    public ResponseEntity<?> productById(@PathVariable @Min(1) Integer id){
+    public ResponseEntity<ApiResponse<ProductRequest>> productById(@PathVariable @Min(1) Integer id){
         return recommendationService.getById(id);
     }
 
     @PostMapping("/products")
-    public ResponseEntity<?> createProduct(@Valid @RequestBody ProductRequest product){
+    public ResponseEntity<ApiResponse<ProductRequest>> createProduct(@Valid @RequestBody ProductRequest product){
         return recommendationService.save(product);
     }
 
     @PutMapping("/products/{id}")
-    public ResponseEntity<?> updateProduct(@PathVariable @Min(1) Integer id,@RequestBody Product product){
+    public ResponseEntity<ApiResponse<ProductRequest>> updateProduct(@PathVariable @Min(1) Integer id,@RequestBody Product product){
         return recommendationService.update(id, product);
     }
 
     @DeleteMapping("/products/{id}")
-    public ResponseEntity<?> deleteProduct(@PathVariable @Min(1) Integer id){
+    public ResponseEntity<ApiResponse<Object>> deleteProduct(@PathVariable @Min(1) Integer id){
         return recommendationService.delete(id);
     }
 
