@@ -3,6 +3,9 @@ package com.example.EndpointApp.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -58,8 +61,9 @@ public class WelcomeEndpoint {
 
     }
     @GetMapping("/products")
-    public ResponseEntity<ApiResponse<List<ProductRequest>>> allProducts(){
-        return recommendationService.getAll();
+    public ResponseEntity<ApiResponse<Page<ProductRequest>>> allProducts(
+        @PageableDefault(size = 10, page = 0) Pageable pageable){
+        return recommendationService.getAll(pageable);
     }
     @GetMapping("/products/{id}")
     public ResponseEntity<ApiResponse<ProductRequest>> productById(@PathVariable @Min(1) Integer id){

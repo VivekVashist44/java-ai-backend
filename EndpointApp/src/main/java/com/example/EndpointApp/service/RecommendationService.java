@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -43,14 +45,14 @@ public class RecommendationService {
         return ResponseEntity.ok(resultResponse);
     }
 
-    public ResponseEntity<ApiResponse<List<ProductRequest>>> getAll() {
-        List<Product> products = repository.findAll();
-        List<ProductRequest> productDtos = products.stream().map(this::mapToDto).collect(Collectors.toList());
-        ApiResponse<List<ProductRequest>> response = new ApiResponse<>();
+    public ResponseEntity<ApiResponse<Page<ProductRequest>>> getAll(Pageable pageable) {
+        Page<Product> products = repository.findAll(pageable);
+        Page<ProductRequest> productDtos = products.map(this::mapToDto);
+        ApiResponse<Page<ProductRequest>> response = new ApiResponse<>();
         response.setData(productDtos);
         response.setSucess(true);
-        response.setMessage("Products fetched successfully");
-        response.setTimestamp(java.time.LocalDateTime.now());
+        response.setMessage("Products fetched successfully");   
+        response.setTimestamp(LocalDateTime.now());
         response.setStatus(HttpStatus.OK);
         return ResponseEntity.ok(response);
     }
