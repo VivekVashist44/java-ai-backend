@@ -2,6 +2,7 @@ package com.example.EndpointApp.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -62,8 +63,9 @@ public class WelcomeEndpoint {
     }
     @GetMapping("/products")
     public ResponseEntity<ApiResponse<Page<ProductRequest>>> allProducts(
+        @RequestParam(required = false) String category,
         @PageableDefault(size = 10, page = 0) Pageable pageable){
-        return recommendationService.getAll(pageable);
+        return recommendationService.getAll(Optional.ofNullable(category),pageable);
     }
     @GetMapping("/products/{id}")
     public ResponseEntity<ApiResponse<ProductRequest>> productById(@PathVariable @Min(1) Integer id){

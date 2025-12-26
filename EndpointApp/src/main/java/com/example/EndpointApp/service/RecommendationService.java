@@ -1,6 +1,7 @@
 package com.example.EndpointApp.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -45,8 +46,14 @@ public class RecommendationService {
         return ResponseEntity.ok(resultResponse);
     }
 
-    public ResponseEntity<ApiResponse<Page<ProductRequest>>> getAll(Pageable pageable) {
-        Page<Product> products = repository.findAll(pageable);
+    public ResponseEntity<ApiResponse<Page<ProductRequest>>> getAll(Optional <String> category , Pageable pageable) {
+        Page<Product> products;
+        if(category.isPresent()){
+            products = repository.findByCategory(category.get(), pageable);
+        }
+        else{
+            products = repository.findAll(pageable); 
+        }
         Page<ProductRequest> productDtos = products.map(this::mapToDto);
         ApiResponse<Page<ProductRequest>> response = new ApiResponse<>();
         response.setData(productDtos);

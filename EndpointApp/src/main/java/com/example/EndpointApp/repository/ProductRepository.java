@@ -1,6 +1,7 @@
 package com.example.EndpointApp.repository;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,4 +14,5 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     public Page<Product> findAll(Pageable pageable);
     public ArrayList<Product> findByCategoryAndIdNot(String category,Integer productId);
+    public Page<Product> findByCategory(String category, Pageable pageable);
 }
