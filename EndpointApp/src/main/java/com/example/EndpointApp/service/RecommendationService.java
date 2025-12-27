@@ -11,9 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.example.EndpointApp.Product;
 import com.example.EndpointApp.dto.ApiResponse;
 import com.example.EndpointApp.dto.ProductRequest;
+import com.example.EndpointApp.entity.Product;
 import com.example.EndpointApp.exception.ProductNotFoundException;
 import com.example.EndpointApp.repository.ProductRepository;
 
@@ -28,28 +28,30 @@ public class RecommendationService {
         this.repository = repository;
     }
 
-    public ResponseEntity<ApiResponse<List<ProductRequest>>> result(Integer productId) {
-        Product res = repository.findById(productId).orElse(null);
-        if (res == null) {
-            throw new ProductNotFoundException(productId);
-        }
+    public ResponseEntity<ApiResponse<Page<ProductRequest>>> result(Integer productId ,Pageable pageable) {
+        // Product res = repository.findById(productId).orElse(null);
+        // if (res == null) {
+        //     throw new ProductNotFoundException(productId);
+        // }
+        Product res =repository.findById(productId).orElseThrow(() -> new ProductNotFoundException(productId));
         String cat = res.getCategory();
-        ArrayList<Product> result = repository.findByCategoryAndIdNot(cat, productId);
-        List<ProductRequest> arrResult = result.stream().map(this::mapToDto).collect(Collectors.toList());
-
-        ApiResponse<List<ProductRequest>> resultResponse = new ApiResponse<>();
+        Page<Product> result = repository.findByCategoryAndIdNot(cat, productId,pageable);
+        Page<ProductRequest> arrResult = result.map(this :: mapToDto);
+        ApiResponse<Page<ProductRequest>> resultResponse = new ApiResponse<>();
         resultResponse.setData(arrResult);
         resultResponse.setSucess(true);
         resultResponse.setMessage("Recommendations fetched successfully");
-        resultResponse.setTimestamp(java.time.LocalDateTime.now());
+        resultResponse.setTimestamp(LocalDateTime.now());
         resultResponse.setStatus(HttpStatus.OK);
         return ResponseEntity.ok(resultResponse);
     }
 
-    public ResponseEntity<ApiResponse<Page<ProductRequest>>> getAll(Optional <String> category , Pageable pageable) {
+    public ResponseEntity<ApiResponse<Page<ProductRequest>>> getAll(Optional <String> name,Optional <String> category , Pageable pageable) {
         Page<Product> products;
-        if(category.isPresent()){
-            products = repository.findByCategory(category.get(), pageable);
+        if(name.isPresent()){
+            products = repository.findByNameContaining(name.get().trim(), pageable);
+        }else if(category.isPresent()){
+            products = repository.findByCategory(category.get().trim(), pageable);
         }
         else{
             products = repository.findAll(pageable); 

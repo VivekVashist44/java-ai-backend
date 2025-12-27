@@ -1,11 +1,8 @@
-package com.example.EndpointApp;
+package com.example.EndpointApp.entity;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 @EntityListeners(AuditListner.class)

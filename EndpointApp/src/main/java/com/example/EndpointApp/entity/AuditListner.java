@@ -1,4 +1,4 @@
-package com.example.EndpointApp;
+package com.example.EndpointApp.entity;
 
 import java.time.LocalDateTime;
 

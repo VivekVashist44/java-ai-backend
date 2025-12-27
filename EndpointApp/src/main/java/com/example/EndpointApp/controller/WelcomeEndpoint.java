@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.EndpointApp.Product;
 import com.example.EndpointApp.dto.ApiResponse;
 import com.example.EndpointApp.dto.ProductRequest;
+import com.example.EndpointApp.entity.Product;
 import com.example.EndpointApp.service.RecommendationService;
 
 import jakarta.validation.Valid;
@@ -57,15 +57,18 @@ public class WelcomeEndpoint {
     }
 
     @GetMapping("/recommendation")
-    public ResponseEntity<ApiResponse<List<ProductRequest>>> recommend(@Min(1) @RequestParam int productId) {
-            return recommendationService.result(productId);
+    public ResponseEntity<ApiResponse<Page<ProductRequest>>> recommend(
+        @Min(1) @RequestParam int productId,
+        @PageableDefault(size = 10, page = 0) Pageable pageable) {
+            return recommendationService.result(productId,pageable);
 
     }
     @GetMapping("/products")
     public ResponseEntity<ApiResponse<Page<ProductRequest>>> allProducts(
         @RequestParam(required = false) String category,
+        @RequestParam(required = false) String name,
         @PageableDefault(size = 10, page = 0) Pageable pageable){
-        return recommendationService.getAll(Optional.ofNullable(category),pageable);
+        return recommendationService.getAll(Optional.ofNullable(name),Optional.ofNullable(category),pageable);
     }
     @GetMapping("/products/{id}")
     public ResponseEntity<ApiResponse<ProductRequest>> productById(@PathVariable @Min(1) Integer id){
