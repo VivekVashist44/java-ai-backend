@@ -1,10 +1,7 @@
 package com.example.EndpointApp.service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;

@@ -9,6 +9,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -24,6 +25,7 @@ public class User {
     private String username;
 
     @Column(length = 500)
+    @Email(message = "Email should be valid")
     private String email;
     
     @Column(nullable = false,length = 100)

@@ -36,26 +36,11 @@ public class WelcomeEndpoint {
     public WelcomeEndpoint(RecommendationService recommendationService) {
 
         this.recommendationService = recommendationService;
-
-        // Product pt1 = new Product(1, "Lays", "Food");
-        // Product pt2 = new Product(2, "Kurkure", "Food");
-        // Product pt3 = new Product(3, "book", "Essential");
-        // Product pt4 = new Product(4, "car", "Essential");
-        // Product pt5 = new Product(5, "milk", "Food");
-        // Product pt6 = new Product(6, "laptop", "Electronics");
-
-        // arr1.add(pt1);
-        // arr1.add(pt2);
-        // arr1.add(pt3);
-        // arr1.add(pt4);
-        // arr1.add(pt5);
-        // arr1.add(pt6);
     }
     @GetMapping("/")
     public String Dashboard(){
         return "Welcome to homepage";
     }
-
     @GetMapping("/recommendation")
     public ResponseEntity<ApiResponse<Page<ProductRequest>>> recommend(
         @Min(1) @RequestParam int productId,
