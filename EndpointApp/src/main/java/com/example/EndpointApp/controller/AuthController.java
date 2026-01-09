@@ -15,7 +15,7 @@ import com.example.EndpointApp.service.UserService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @Validated
 public class AuthController {
     private final UserService userService;
@@ -24,8 +24,8 @@ public class AuthController {
         this.userService = userService;
     }
 
-    // @PostMapping("/register")
-    // public ResponseEntity<ApiResponse<UserResponse>> registerUser(@Valid @RequestBody UserResponse userResponse){
-    //     return userService.registerUser(userResponse);
-    // }
+    @PostMapping("/register")
+    public ResponseEntity<ApiResponse<UserResponse>> registerUser(@Valid @RequestBody UserRegisterRequest userRegisterRequest){
+        return userService.registerUser(userRegisterRequest);
+    }
 }
